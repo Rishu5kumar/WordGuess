@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+        }
+
+        #hint {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        #wordContainer {
+            margin: 20px 0;
+        }
+
+        .letter-box {
+            display: inline-block;
+            width: 40px;
+            height: 50px;
+            font-size: 28px;
+            text-transform: uppercase;
+            text-align: center;
+            border-bottom: 3px solid #333;
+            margin: 5px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .letter-box:focus {
+            outline: none;
+            border-bottom: 3px solid #007BFF;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #feedbackBox {
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 350px;
+            margin: 20px auto;
+            text-align: left;
+            min-height: 100px;
+            overflow-y: auto;
+            max-height: 200px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 16px;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Guess the Word</h1>
+    <p id="hint"></p>
+    <div id="wordContainer"></div>
+    <button onclick="checkGuess()">Guess</button>
+    <div id="feedbackBox"></div>
+
+    <script>
+        const wordsWithHints = [
+            {
+                word: "bottle",
+                hint: "I hold liquids but have no hands.",
+                locations: ["On a desk", "On the window", "Under a chair"]
+            },
+            {
+                word: "whiteboard",
+                hint: "I reflect thoughts, yet I have no mind. Wipe me clean, and I start anew.",
+                locations: ["Behind the whiteboard", "Under a magnet holding notes", "Behind a corner sticker", "Inside the eraser compartment"]
+            }
+        ];
+
+        let selectedEntry = wordsWithHints[Math.floor(Math.random() * wordsWithHints.length)];
+        let selectedWord = selectedEntry.word;
+        let clueLocation = selectedEntry.locations[Math.floor(Math.random() * selectedEntry.locations.length)];
+
+        document.getElementById("hint").innerText = "Hint: " + selectedEntry.hint;
+        let wordContainer = document.getElementById("wordContainer");
+
+        for (let i = 0; i < selectedWord.length; i++) {
+            let span = document.createElement("span");
+            span.classList.add("letter-box");
+            span.contentEditable = true;
+            span.setAttribute("maxlength", "1");
+            span.addEventListener("input", function () {
+                if (this.innerText.length > 1) {
+                    this.innerText = this.innerText.charAt(0);
+                }
+                let next = this.nextElementSibling;
+                if (next && this.innerText !== "") {
+                    next.focus();
+                }
+            });
+            span.addEventListener("keydown", function (event) {
+                if (event.key === "Backspace" && this.innerText === "") {
+                    let prev = this.previousElementSibling;
+                    if (prev) {
+                        prev.focus();
+                        prev.innerText = "";
+                        event.preventDefault();
+                    }
+                }
+            });
+            wordContainer.appendChild(span);
+        }
+
+        function checkGuess() {
+            let letters = document.querySelectorAll(".letter-box");
+            let input = "";
+            letters.forEach(letter => input += letter.innerText.toLowerCase());
+            let feedbackBox = document.getElementById("feedbackBox");
+            feedbackBox.innerHTML = "";
+
+            if (input.length !== selectedWord.length) {
+                feedbackBox.innerHTML = `<p>&#8226; Enter a word with the correct length!</p>`;
+            } else if (input === selectedWord) {
+                feedbackBox.innerHTML = `<p>&#8226; Well done! You've cracked the code. Now, search for this object in the hall. Hidden within, a number waits—your next clue is at: ${clueLocation}.</p>`;
+            } else {
+                let feedback = "";
+                for (let i = 0; i < selectedWord.length; i++) {
+                    if (input[i] === selectedWord[i]) {
+                        feedback += `&#8226; ${input[i]} is in the right place.<br>`;
+                    } else if (selectedWord.includes(input[i])) {
+                        feedback += `&#8226; ${input[i]} is in the word but in the wrong place.<br>`;
+                    } else {
+                        feedback += `&#8226; ${input[i]} is not in the word.<br>`;
+                    }
+                }
+                feedbackBox.innerHTML = `<p>${feedback}</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>
