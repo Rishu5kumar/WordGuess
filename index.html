@@ -6,46 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess the Word</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 50px;
+            padding: 20px;
             background-color: #f4f4f4;
         }
 
         h1 {
+            font-size: 28px;
             color: #333;
-            font-size: 32px;
+            margin-bottom: 10px;
         }
 
         #hint {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 15px;
             color: #555;
+            margin-bottom: 15px;
         }
 
         #wordContainer {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
             margin: 20px 0;
         }
 
         .letter-box {
-            display: inline-block;
             width: 40px;
             height: 50px;
             font-size: 28px;
             text-transform: uppercase;
             text-align: center;
             border-bottom: 3px solid #333;
-            margin: 5px;
             background-color: white;
             border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease-in-out;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+            transition: 0.2s ease-in-out;
+            outline: none;
         }
 
         .letter-box:focus {
-            outline: none;
             border-bottom: 3px solid #007BFF;
         }
 
@@ -53,12 +62,12 @@
             background-color: #007BFF;
             color: white;
             padding: 12px 20px;
-            font-size: 18px;
+            font-size: 16px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
             transition: 0.3s;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         button:hover {
@@ -68,20 +77,38 @@
         #feedbackBox {
             border: 1px solid #ccc;
             padding: 15px;
-            width: 350px;
+            width: 100%;
+            max-width: 350px;
             margin: 20px auto;
             text-align: left;
-            min-height: 100px;
+            min-height: 80px;
             overflow-y: auto;
-            max-height: 200px;
             background-color: white;
             border-radius: 5px;
             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         p {
-            font-size: 16px;
+            font-size: 14px;
             color: #444;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .letter-box {
+                width: 30px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            button {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            #feedbackBox {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -104,6 +131,46 @@
                 word: "whiteboard",
                 hint: "I reflect thoughts, yet I have no mind. Wipe me clean, and I start anew.",
                 locations: ["Behind the whiteboard", "Under a magnet holding notes", "Behind a corner sticker", "Inside the eraser compartment"]
+            },
+            {
+                word: "marker",
+                hint: "I help you write bold and clear, but I run out over time.",
+                locations: ["Taped under the desk", "Take out from Our member",]
+            },
+            {
+                word: "eraser",
+                hint: "I take away but never add, I make mistakes disappear with a single swipe.",
+                locations: ["Taped under the desk", "Behind a pencil holder", "Inside a pen case"]
+            },
+            {
+                word: "notebook",
+                hint: "I hold knowledge but have no brain. Flip through me to find what you seek.",
+                locations: ["In a random page of an old notebook", "Taped under a desk", "Between two unused pages", "Inside a bag left in the hall"]
+            },
+            {
+                word: "duster",
+                hint: "I make things disappear but never truly gone.",
+                locations: ["Inside the storage cabinet", "Behind a classroom notice board", "Under the teacher's desk", "Inside a drawer full of old supplies", "Taped to the underside of a chair"]
+            },
+            {
+                word: "chair",
+                hint: "I carry the weight of knowledge but have no brain.",
+                locations: ["Under the seat of a random chair", "Inside the backrest of an old chair", "Taped to the bottom of a bench", "Hidden in a crack on the leg of a chair", "Under the exam hall's stage"]
+            },
+            {
+                word: "calculator",
+                hint: "I help you with math quickly and correctly.",
+                locations: ["I am a number. Multiply me by 3, then subtract 4. You get 5. What number am I?"]
+            },
+            {
+                word: "desk",
+                hint: "I have four legs but never walk. I support your work, but I do none myself.",
+                locations: ["Underneath a desk with tape", "Inside a leg", "Taped under the writing surface", "Attached to the underside of a chair nearby"]
+            },
+            {
+                word: "clock",
+                hint: "I never stop moving, yet I stay in the same place. What am I?",
+                locations: ["Your clue rests with the keeper of time—go find them!", "The one who signals the start and end of your test might have the key."]
             }
         ];
 
