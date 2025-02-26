@@ -93,6 +93,50 @@
             color: #444;
         }
 
+        #answerBox {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #answerInput {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        #submitAnswer {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        #submitAnswer:hover {
+            background-color: #218838;
+        }
+
+        #answerFeedback {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
         /* Responsive Design */
         @media (max-width: 480px) {
             .letter-box {
@@ -119,58 +163,68 @@
     <div id="wordContainer"></div>
     <button onclick="checkGuess()">Guess</button>
     <div id="feedbackBox"></div>
+    <div id="answerBox" style="display: none;">
+        <p id="questionText"></p>
+        <input type="text" id="answerInput" placeholder="Enter your answer">
+        <button id="submitAnswer" onclick="checkAnswer()">Submit</button>
+        <p id="answerFeedback"></p>
+    </div>
 
     <script>
         const wordsWithHints = [
             {
                 word: "bottle",
-                hint: "I hold liquids but have no hands.",
-                locations: ["On a desk", "On the window", "Under a chair"]
+                hint: "I hold what flows but have no hands. I quench thirst yet never drink. What am I?",
+                locations: ["I am a three-digit number. My hundreds digit is the cube root of 27. My ones digit is the largest single-digit prime number. My tens digit is the absolute difference between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "5"
             },
             {
-                word: "whiteboard",
-                hint: "I reflect thoughts, yet I have no mind. Wipe me clean, and I start anew.",
-                locations: ["Behind the whiteboard", "Under a magnet holding notes", "Behind a corner sticker", "Inside the eraser compartment"]
+                word: "mirror",
+                hint: "I show you the truth, but I do not speak. I reflect, but I do not think. What am I?",
+                locations: ["I am a two-digit number. If you multiply me by 4, you get a three-digit number where the digits add up to 10. Add my digits until you get a single digit."],
+                answer: "7"
             },
             {
-                word: "marker",
-                hint: "I help you write bold and clear, but I run out over time.",
-                locations: ["Taped under the desk", "Take out from Our member",]
+                word: "equation",
+                hint: "I am balanced but not on a scale. I contain unknowns, yet I always have an answer. What am I?",
+                locations: ["I am a three-digit number. My hundreds digit is the cube root of 125. My ones digit is the second whole number. My tens digit is the absolute difference between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "1"
             },
             {
-                word: "eraser",
-                hint: "I take away but never add, I make mistakes disappear with a single swipe.",
-                locations: ["Taped under the desk", "Behind a pencil holder", "Inside a pen case"]
+                word: "shadow",
+                hint: "I follow you everywhere but vanish in the dark. What am I?",
+                locations: ["I am a four-digit number. My first digit is the square root of 16. My middle two digits form a number that is half(floor division) of the last digit. Last digits is MS Dhoni's Jersey Number. Add my digits together until you get a single digit."],
+                answer: "5"
             },
             {
                 word: "notebook",
                 hint: "I hold knowledge but have no brain. Flip through me to find what you seek.",
-                locations: ["In a random page of an old notebook", "Taped under a desk", "Between two unused pages", "Inside a bag left in the hall"]
-            },
-            {
-                word: "duster",
-                hint: "I make things disappear but never truly gone.",
-                locations: ["Inside the storage cabinet", "Behind a classroom notice board", "Under the teacher's desk", "Inside a drawer full of old supplies", "Taped to the underside of a chair"]
+                locations: ["I am a three-digit number. My hundreds digit is the sum of the digits of the smallest two-digit prime number. My ones digit is the smallest odd number. My tens digit is the sum between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "3"
             },
             {
                 word: "chair",
                 hint: "I carry the weight of knowledge but have no brain.",
-                locations: ["Under the seat of a random chair", "Inside the backrest of an old chair", "Taped to the bottom of a bench", "Hidden in a crack on the leg of a chair", "Under the exam hall's stage"]
+                locations: ["I am a three-digit number. My hundreds digit is the cube root of 8. My ones digit is the second smallest prime number. My tens digit is twice the ones digit. Add my digits together until you get a single digit."],
+                answer: "2"
             },
             {
                 word: "calculator",
                 hint: "I help you with math quickly and correctly.",
-                locations: ["I am a number. Multiply me by 3, then subtract 4. You get 5. What number am I?"]
+                locations: [" I am a three-digit number. My hundreds digit is the square root of 81. My ones digit is the third largest odd single-digit number. My tens digit is the difference between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "9"
             },
             {
                 word: "desk",
                 hint: "I have four legs but never walk. I support your work, but I do none myself.",
-                locations: ["Underneath a desk with tape", "Inside a leg", "Taped under the writing surface", "Attached to the underside of a chair nearby"]
+                locations: ["I am a three-digit number. My hundreds digit is the cube root of 343. My ones digit is the smallest two-digit prime number minus 10. My tens digit is the sum between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "7"
             },
             {
                 word: "clock",
                 hint: "I never stop moving, yet I stay in the same place. What am I?",
-                locations: ["Your clue rests with the keeper of time—go find them!", "The one who signals the start and end of your test might have the key."]
+                locations: ["I am a three-digit number. My hundreds digit is the smallest prime number. My ones digit is the smallest whole number. My tens digit is the absolute difference between my hundreds and ones digits. Add my digits together until you get a single digit."],
+                answer: "4"
             }
         ];
 
@@ -218,7 +272,9 @@
             if (input.length !== selectedWord.length) {
                 feedbackBox.innerHTML = `<p>&#8226; Enter a word with the correct length!</p>`;
             } else if (input === selectedWord) {
-                feedbackBox.innerHTML = `<p>&#8226; Well done! You've cracked the code. Now, search for this object in the hall. Hidden within, a number waits—your next clue is at: ${clueLocation}.</p>`;
+                feedbackBox.innerHTML = `<p>&#8226; Well done! You've cracked the code. Now, solve this question. Hidden within, a number waits—your question is: <strong>${clueLocation}</strong>.</p>`;
+                document.getElementById("answerBox").style.display = "block";
+                document.getElementById("questionText").innerText = "Enter your answer to escape:";
             } else {
                 let feedback = "";
                 for (let i = 0; i < selectedWord.length; i++) {
@@ -233,6 +289,21 @@
                 feedbackBox.innerHTML = `<p>${feedback}</p>`;
             }
         }
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answerInput").value.trim();
+            let correctAnswer = selectedEntry.answer.toString();
+            let feedbackBox = document.getElementById("answerFeedback");
+
+            if (userAnswer === correctAnswer) {
+                feedbackBox.innerHTML = "✅ Congratulations! Your code for this part to escape the room is: " + correctAnswer;
+                feedbackBox.style.color = "green";
+            } else {
+                feedbackBox.innerHTML = "❌ Incorrect! Try again.";
+                feedbackBox.style.color = "red";
+            }
+        }
+
     </script>
 </body>
 
